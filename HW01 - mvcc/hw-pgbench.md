@@ -3,8 +3,8 @@
 ## Запуск PGBENCH
 Параметры запуска: -c 8 -P 6 -T 60
 
-### Первый запуск
-#### Результат
+## Первый запуск
+### Результат
 progress: 6.0 s, 694.7 tps, lat 9.264 ms stddev 5.389, 0 failed  
 progress: 12.0 s, 879.0 tps, lat 9.079 ms stddev 4.794, 0 failed  
 progress: 18.0 s, 845.0 tps, lat 9.464 ms stddev 7.164, 0 failed  
@@ -23,7 +23,7 @@ latency stddev = 6.729 ms
 initial connection time = 1158.903 ms  
 tps = 791.117631 (without initial connection time)  
 
-#### Параметры AUTOVACUUM
+### Параметры AUTOVACUUM
 autovacuum_max_workers = 3  
 autovacuum_naptime = 1min  
 autovacuum_vacuum_threshold = 50  
@@ -31,8 +31,8 @@ autovacuum_vacuum_scale_factor = 0.2
 autovacuum_vacuum_cost_delay = 2ms  
 autovacuum_vacuum_cost_limit = 200  
 
-### Второй запуск
-#### Результат
+## Второй запуск
+### Результат
 progress: 6.0 s, 922.3 tps, lat 7.204 ms stddev 4.389, 0 failed  
 progress: 12.0 s, 1110.7 tps, lat 7.183 ms stddev 4.356, 0 failed  
 progress: 18.0 s, 1054.0 tps, lat 7.587 ms stddev 4.362, 0 failed  
@@ -51,7 +51,7 @@ latency stddev = 4.057 ms
 initial connection time = 1003.028 ms  
 tps = 1108.305994 (without initial connection time)  
 
-#### Параметры AUTOVACUUM
+### Параметры AUTOVACUUM
 autovacuum_max_workers = 3  
 autovacuum_naptime = 15s  
 autovacuum_vacuum_threshold = 25  
@@ -59,5 +59,5 @@ autovacuum_vacuum_scale_factor = 0.05
 autovacuum_vacuum_cost_delay = 10  
 autovacuum_vacuum_cost_limit = 1000  
 
-### Выводы
+## Выводы
 Более агрессивные параметры autovacuum значительно увеличивают производительность. Прирост по TPS 40%. Снижение задержки около 28%.
