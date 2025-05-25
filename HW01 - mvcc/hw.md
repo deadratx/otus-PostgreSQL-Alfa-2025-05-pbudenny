@@ -34,6 +34,8 @@ autovacuum_vacuum_cost_limit = 200
 
 ## Второй запуск
 ### Результат
+|БД       |Период | TPS       | Задержка                 |Ошибок   |
+|---------|-------|-----------|--------------------------|---------|
 |progress:|  6.0 s|  950.5 tps| lat 6.989 ms stddev 4.165| 0 failed|
 |progress:| 12.0 s| 1097.0 tps| lat 7.280 ms stddev 3.887| 0 failed|
 |progress:| 18.0 s| 1102.3 tps| lat 7.242 ms stddev 4.029| 0 failed|
