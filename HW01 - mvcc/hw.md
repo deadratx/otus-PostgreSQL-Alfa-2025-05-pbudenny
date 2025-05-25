@@ -34,16 +34,16 @@ autovacuum_vacuum_cost_limit = 200
 
 ## Второй запуск
 ### Результат
-progress: 6.0 s, 950.5 tps, lat 6.989 ms stddev 4.165, 0 failed  
-progress: 12.0 s, 1097.0 tps, lat 7.280 ms stddev 3.887, 0 failed  
-progress: 18.0 s, 1102.3 tps, lat 7.242 ms stddev 4.029, 0 failed  
-progress: 24.0 s, 1111.2 tps, lat 7.194 ms stddev 3.936, 0 failed  
-progress: 30.0 s, 1106.2 tps, lat 7.221 ms stddev 3.862, 0 failed  
-progress: 36.0 s, 1055.8 tps, lat 7.564 ms stddev 4.143, 0 failed  
-progress: 42.0 s, 942.1 tps, lat 8.467 ms stddev 5.318, 0 failed  
-progress: 48.0 s, 988.7 tps, lat 8.072 ms stddev 4.488, 0 failed  
-progress: 54.0 s, 970.3 tps, lat 8.226 ms stddev 4.856, 0 failed  
-progress: 60.0 s, 1003.0 tps, lat 7.958 ms stddev 4.467, 0 failed  
+|progress:|  6.0 s|  950.5 tps| lat 6.989 ms stddev 4.165| 0 failed|
+|progress:| 12.0 s| 1097.0 tps| lat 7.280 ms stddev 3.887| 0 failed|
+|progress:| 18.0 s| 1102.3 tps| lat 7.242 ms stddev 4.029| 0 failed|
+|progress:| 24.0 s| 1111.2 tps| lat 7.194 ms stddev 3.936| 0 failed|
+|progress:| 30.0 s| 1106.2 tps| lat 7.221 ms stddev 3.862| 0 failed|
+|progress:| 36.0 s| 1055.8 tps| lat 7.564 ms stddev 4.143| 0 failed|
+|progress:| 42.0 s|  942.1 tps| lat 8.467 ms stddev 5.318| 0 failed|
+|progress:| 48.0 s|  988.7 tps| lat 8.072 ms stddev 4.488| 0 failed|
+|progress:| 54.0 s|  970.3 tps| lat 8.226 ms stddev 4.856| 0 failed|
+|progress:| 60.0 s| 1003.0 tps| lat 7.958 ms stddev 4.467| 0 failed|
 
 number of transactions actually processed: 61972
 number of failed transactions: 0 (0.000%)
