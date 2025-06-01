@@ -16,23 +16,23 @@ _Транзакция 1_ отменена. _Транзакция 2_ и _Тран
 _Транзакция 1_
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 102;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 100;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 102;
 COMMIT;
 ```
 
 _Транзакция 2_
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 101;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 101;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 100;
 COMMIT;
 ```
 
 _Транзакция 3_
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 102;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 101;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 102;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 101;
 COMMIT;
 ```

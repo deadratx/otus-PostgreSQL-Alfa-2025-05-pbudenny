@@ -36,7 +36,7 @@ TABLESPACE pg_default;
 ### Обновление в первой транзакции
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
+UPDATE personnel SET fio = 'Steve Rogers' WHERE id = 100;
 ```
 1. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**  
 2. Возникает блокировка типа **transactionid** в режиме **ExclusiveLock**.  **Granted? = true** 
@@ -44,7 +44,7 @@ UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
 ### Обновление во второй транзакции
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers2' WHERE id = 100;
+UPDATE personnel SET fio = 'Steve Rogers2' WHERE id = 100;
 ```
 1. Возникает блокировка типа **tuple** в режиме **ExclusiveLock**. **Granted? = true**
 2. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**
@@ -56,7 +56,7 @@ UPDATE PERSONNEL SET FIO = 'Steve Rogers2' WHERE id = 100;
 ### Обновление в третьей транзакции
 ```SQL
 BEGIN;
-UPDATE PERSONNEL SET FIO = 'Steve Rogers++' WHERE id = 100;
+UPDATE personnel SET fio = 'Steve Rogers++' WHERE id = 100;
 ```
 1. Возникает блокировка типа **tuple** в режиме **ExclusiveLock**. **Granted? = false**
 2. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**
