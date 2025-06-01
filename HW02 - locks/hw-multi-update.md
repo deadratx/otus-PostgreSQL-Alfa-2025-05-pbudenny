@@ -5,12 +5,47 @@
 log_lock_waits = on  
 log_min_duration_statement = 200  
 
+## Создание БД и таблицы
+```SQL
+CREATE DATABASE hcm
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Russian_Russia.1251'
+    LC_CTYPE = 'Russian_Russia.1251'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+```
+
+```SQL
+CREATE TABLE IF NOT EXISTS public.personnel
+(
+    id integer NOT NULL DEFAULT nextval('personnel_id_seq'::regclass),
+    fio character(100) COLLATE pg_catalog."default"
+)
+
+WITH (
+    autovacuum_enabled = TRUE
+)
+TABLESPACE pg_default;
+```
+
 ## Обновление одной записи в трёх разных сеансах
 ### Обновление в первой транзакции
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
+```
 1. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**  
 2. Возникает блокировка типа **transactionid** в режиме **ExclusiveLock**.  **Granted? = true** 
 
 ### Обновление во второй транзакции
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers2' WHERE id = 100;
+```
 1. Возникает блокировка типа **tuple** в режиме **ExclusiveLock**. **Granted? = true**
 2. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**
 3. Возникает блокировка типа **transactionid** в режиме **ExclusiveLock**. **Granted? = true**
@@ -19,6 +54,10 @@ log_min_duration_statement = 200
 Наложены 3 из 4х возникших блокировок. Оператор UPDATE ещё не выполнился. В журнал попало сообщение об ожидании блокировки вторым процессом с указанием ID первого процесса и оператора из второго процесса. Ожидается блокировка в режиме **ShareLock**.
 
 ### Обновление в третьей транзакции
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers++' WHERE id = 100;
+```
 1. Возникает блокировка типа **tuple** в режиме **ExclusiveLock**. **Granted? = false**
 2. Возникает блокировка типа **relation** в режиме **RowExclusiveLock**. **Granted? = true**
 2. Возникает блокировка типа **transactionid** в режиме **ExclusiveLock**. **Granted? = true**
@@ -26,6 +65,9 @@ log_min_duration_statement = 200
 Наложены 2 блокировки. Оператор UPDATE тоже не выполнился. Блокировка с типом **transactionid** в режиме **ShareLock** ещё не создана. В журнал попало сообщение об ожидании блокировки третьим процессом с указанием ID второго процесса и оператора из терьего процесса. Ожидается блокировка в режиме **ExclusiveLock**.
 
 ### Коммит в первой транзакции
+```SQL
+COMMIT;
+```
 1. Выполняется оператор UPDATE во второй транзакции.
 2. Остаются две блокировки из второй транзакции: типа **relation** в режиме **RowExclusiveLock** и типа **transactionid** в режиме **ExclusiveLock**. **Granted? = true**
 3. Возникает блокировка в третьей транзакции типа **tuple** в режиме **ExclusiveLock**. **Granted? = true**.
@@ -34,6 +76,9 @@ log_min_duration_statement = 200
 Во второй транзакции остаются только две наложенные блокировки. В третьей накладывается одна ожидающая блокировка и ещё одна возникает. В журнале указано, что второй процесс получил блокировку в режиме **ShareLock**. Третий процесс получил блокировку в режиме **ExclusiveLock** и ожидает блокировку в режиме **ShareLock**.
 
 ### Коммит во второй транзакции
+```SQL
+COMMIT;
+```
 1. Выполняется оператор UPDATE в третьей транзакции.
 2. Снимаются все блокировки из второго процесса.
 3. Остаются две блокировки из третьего процесса: типа **relation** в режиме **RowExclusiveLock** и типа **transactionid** в режиме **ExclusiveLock**. **Granted? = true**
@@ -41,6 +86,9 @@ log_min_duration_statement = 200
 Остаются только две блокировки от третьего процесса. В журнале указано третий процесс получил блокировку в режиме **ShareLock**.
 
 ### Коммит в третьей транзакции
+```SQL
+COMMIT;
+```
 Снимаются последние блокировка. В журнал не добавляется никаких записей.
 
 ## Выводы

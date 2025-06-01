@@ -11,3 +11,28 @@
 _Транзакция 1_ отменена. _Транзакция 2_ и _Транзакция 3_ продолжаются и могут быть успешно завершены.
 
 При этом в журнале появляется сообщение, что процесс из _Транзакции 1_ обнаружил взаимоблокировку с детализацией кто кого блокирует и какой тип блокировки ожидается.
+
+## SQL скрипты
+_Транзакция 1_
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 102;
+COMMIT;
+```
+
+_Транзакция 2_
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 101;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 100;
+COMMIT;
+```
+
+_Транзакция 3_
+```SQL
+BEGIN;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 102;
+UPDATE PERSONNEL SET FIO = 'Steve Rogers' WHERE id = 101;
+COMMIT;
+```
