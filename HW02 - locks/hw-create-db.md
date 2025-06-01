@@ -24,3 +24,7 @@ WITH (
 )
 TABLESPACE pg_default;
 ```
+
+```SQL
+INSERT INTO personnel(fio) SELECT 'noname' FROM generate_series(1,1000000);
+```
