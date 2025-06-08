@@ -50,7 +50,8 @@ create index on flights((actual_departure - scheduled_departure));
 
 В этом случае произошло следующее:
 1. Объединение индекса flights_expr_idx по условию (flights.actual_departure - flights.scheduled_departure) >= '00:30:00'
-2. Фильтрация полученного результата по условию departure_airport = 'DME'.
+2. Фильтрация полученного результата по условию departure_airport = 'DME'
+
 Создание индекса увеличило скорость выполнения запроса в 4 раза.
 
 ## Выводы
