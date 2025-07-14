@@ -67,3 +67,49 @@ sudo -u postgres pg_basebackup -p 5432 -D /var/lib/postgresql/17/main3
 В данном случае будет создана полная копия кластера, который доступен по порту 5432. Перед созданием физического бэкапа целевая директория должна быть пуста.
 
 В отличие от логического, физический бэкап не является набором команд для утилиты **psql** и его можно восстановить только в той же версии и на той же архитектуре, что и источник.
+
+## Сравнение скорости работы.
+
+Для изучения скорости работы утилит по созданию бэкапов была использована средняя демонстрационная база postgrespro.  
+
+### Выгрузка/восстановление одной БД.
+Выгрузка в скрипт через **pg_dump** заняла 21 секунду. 
+```bash
+SECONDS=0; sudo -u postgres pg_dump -d demo -C -U postgres -p 5433 > main2-demo.sql; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+Восстановление из бэкапа с помощью **psql** заняло 38 секунд.
+```bash
+SECONDS=0; sudo -u postgres psql -U postgres -p 5434 < main2-demo.sql; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+Выгрузка в архив через **pg_dump** заняла 17 секунд.  
+```bash
+SECONDS=0; sudo -u postgres pg_dump -d demo -C -U postgres -Fc -p 5433 > main2-demo.gz; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+Восстановление из бэкапа с помощью **pg_restore** заняло 30 секунд.
+```bash
+SECONDS=0; sudo -u postgres pg_restore -d demo -U postgres -p 5434 main2-demo.gz; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+### Выгрузка/восстановление всего кластера.
+Выгрузка логического бэкапа через **pg_dumpall** заняла 20 секунд.
+```bash
+SECONDS=0; sudo -u postgres pg_dumpall -U postgres -p 5433 > main2-full.sql; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+Восстановление из бэкапа с помощью **psql** заняло 37 секунд.
+```bash
+SECONDS=0; sudo -u postgres psql -U postgres -p 5434 < main2-full.sql; duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+Выгрузка физического бэкапа с помощью **pg_basebackup** заняла 5 секунд.
+```bash
+SECONDS=0; sudo -u postgres pg_basebackup -p 5433 -D /full-backup2;  duration=$SECONDS; echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."
+```
+
+### Выводы.
+Быстрее всего создаётся физический бэкап, так как это, по сути, просто копия файлов кластера. Восстановление из физического бэкапа (если не рассматривать процедуру восстановления на определённую отметку времени) тоже требует лишь копирования файлов в каталог кластера и будет работать быстрее, чем восстановление из логического бэкапа.  
+Среди инструментов для создания логического бэкапа быстрее работает выгрузка/восстановление с использованием архива.  
+Различия в скорости при использовании **pg_dump** и **pg_dumpall**, при выгрузке в скрипт и восстановлении из него же, практически отсутствуют в тестовом примере. Возможно, что при наличии в кластере большого количества баз данных, ролей и других объектов, разница будет заметна.
