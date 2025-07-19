@@ -27,7 +27,7 @@ primary_conninfo = 'user=postgres passfile=''/var/lib/postgresql/.pgpass'' chann
 select * from pg_stat_replication \gx
 ```
 | Поле             | Значение                      |
-| ---------------- | ----------------------------- |
+|:---------------- |:----------------------------- |
 | pid              | 2867                          |
 | usesysid         | 10                            |
 | usename          | postgres                      |
