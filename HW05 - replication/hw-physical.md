@@ -54,7 +54,7 @@ select * from pg_stat_replication \gx
 select * from pg_stat_wal_receiver \gx
 ```
 | Поле                  | Значение                      |
-| --------------------- | ----------------------------- |
+|:--------------------- |:----------------------------- |
 | pid                   | 2866                          |
 | status                | streaming                     |
 | receive_start_lsn     | 0/25000000                    |
